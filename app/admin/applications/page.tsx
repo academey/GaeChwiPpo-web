@@ -57,34 +57,6 @@ export default function AdminApplicationsPage() {
     setUpdatingStatus(null);
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'pending':
-        return (
-          <Badge
-            variant="secondary"
-            className="bg-yellow-500/20 text-yellow-300"
-          >
-            대기중
-          </Badge>
-        );
-      case 'approved':
-        return (
-          <Badge variant="secondary" className="bg-green-500/20 text-green-300">
-            승인됨
-          </Badge>
-        );
-      case 'rejected':
-        return (
-          <Badge variant="secondary" className="bg-red-500/20 text-red-300">
-            거절됨
-          </Badge>
-        );
-      default:
-        return <Badge variant="secondary">{status}</Badge>;
-    }
-  };
-
   const filterApplications = (status?: string) => {
     if (!status) return applications;
     return applications.filter(app => app.status === status);
@@ -201,6 +173,31 @@ export default function AdminApplicationsPage() {
     </div>
   );
 }
+
+const getStatusBadge = (status: string) => {
+  switch (status) {
+    case 'pending':
+      return (
+        <Badge variant="secondary" className="bg-yellow-500/20 text-yellow-300">
+          대기중
+        </Badge>
+      );
+    case 'approved':
+      return (
+        <Badge variant="secondary" className="bg-green-500/20 text-green-300">
+          승인됨
+        </Badge>
+      );
+    case 'rejected':
+      return (
+        <Badge variant="secondary" className="bg-red-500/20 text-red-300">
+          거절됨
+        </Badge>
+      );
+    default:
+      return <Badge variant="secondary">{status}</Badge>;
+  }
+};
 
 interface ApplicationListProps {
   applications: SpeakerApplication[];

@@ -23,7 +23,7 @@ interface ApplicationFormData {
 }
 
 export async function submitSpeakerApplication(
-  prevState: any,
+  _: unknown,
   formData: FormData,
 ): Promise<{ success?: boolean; error?: string; applicationId?: string }> {
   try {
@@ -86,7 +86,7 @@ export async function submitSpeakerApplication(
     }
 
     // 기술 스택 파싱
-    let skills: string[] = [];
+    let skills: string[];
     try {
       skills = JSON.parse(data.skills);
     } catch {
@@ -123,16 +123,16 @@ export async function submitSpeakerApplication(
       phone: data.phone.trim(),
       company: data.company.trim(),
       position: data.position.trim(),
-      experience: data.experience || null,
+      experience: data.experience || undefined,
       topic: data.topic.trim(),
       description: data.description.trim(),
       duration: data.duration,
       format: data.format,
       skills: skills,
       has_experience: data.hasExperience === 'true',
-      previous_talks: data.previousTalks?.trim() || null,
+      previous_talks: data.previousTalks?.trim() || undefined,
       motivation: data.motivation.trim(),
-      additional_info: data.additionalInfo?.trim() || null,
+      additional_info: data.additionalInfo?.trim() || undefined,
       agreements: agreements,
       status: 'pending',
     };
@@ -176,7 +176,7 @@ export async function submitSpeakerApplication(
       success: true,
       applicationId: insertedData.id,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('연사 신청 처리 중 오류:', error);
     return {
       error:

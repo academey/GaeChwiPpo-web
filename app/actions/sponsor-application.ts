@@ -20,7 +20,7 @@ interface SponsorApplicationData {
 }
 
 export async function submitSponsorApplication(
-  prevState: any,
+  _: { success?: boolean; error?: string; applicationId?: string } | null,
   formData: FormData,
 ): Promise<{ success?: boolean; error?: string; applicationId?: string }> {
   try {

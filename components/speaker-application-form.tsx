@@ -125,18 +125,25 @@ export default function SpeakerApplicationForm() {
     null,
   );
 
-  const updateFormData = (field: string, value: any) => {
+  const updateFormData = (
+    field: string,
+    value: string | boolean | string[],
+  ) => {
     setFormData(prev => ({
       ...prev,
       [field]: value,
     }));
   };
 
-  const updateNestedFormData = (parent: string, field: string, value: any) => {
+  const updateNestedFormData = <T extends keyof FormData>(
+    parent: T,
+    field: keyof FormData[T] & string,
+    value: string | boolean,
+  ) => {
     setFormData(prev => ({
       ...prev,
       [parent]: {
-        ...prev[parent as keyof FormData],
+        ...(prev[parent] as object),
         [field]: value,
       },
     }));
