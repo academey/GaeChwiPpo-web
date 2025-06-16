@@ -1,37 +1,39 @@
-import type { Metadata } from "next"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { ArrowLeft, Calendar, MapPin, Users } from "lucide-react"
-import { getSpeakerById, getSessionBySpeakerId } from "@/data/speakers"
-import { SpeakerAvatar } from "@/components/speaker-avatar"
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { ArrowLeft, Calendar, MapPin, Users } from 'lucide-react';
+import { getSpeakerById, getSessionBySpeakerId } from '@/data/speakers';
+import { SpeakerAvatar } from '@/components/speaker-avatar';
 
 interface SpeakerPageProps {
   params: {
-    id: string
-  }
+    id: string;
+  };
 }
 
-export async function generateMetadata({ params }: SpeakerPageProps): Promise<Metadata> {
-  const speaker = getSpeakerById(params.id)
+export async function generateMetadata({
+  params,
+}: SpeakerPageProps): Promise<Metadata> {
+  const speaker = getSpeakerById(params.id);
 
   if (!speaker) {
     return {
-      title: "연사를 찾을 수 없습니다 | 개취뽀",
-    }
+      title: '연사를 찾을 수 없습니다 | 개취뽀',
+    };
   }
 
   return {
     title: `${speaker.name} | 개취뽀 연사`,
     description: speaker.bio,
-  }
+  };
 }
 
 export default function SpeakerPage({ params }: SpeakerPageProps) {
-  const speaker = getSpeakerById(params.id)
-  const session = getSessionBySpeakerId(params.id)
+  const speaker = getSpeakerById(params.id);
+  const session = getSessionBySpeakerId(params.id);
 
   if (!speaker) {
-    notFound()
+    notFound();
   }
 
   return (
@@ -41,17 +43,30 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-3">
-              <img src="/logo.png" alt="개취뽀 로고" className="w-10 h-10 rounded-lg" />
+              <img
+                src="/logo.png"
+                alt="개취뽀 로고"
+                className="w-10 h-10 rounded-lg"
+              />
               <span className="text-xl font-bold text-white">개취뽀</span>
             </Link>
             <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/#speakers" className="text-gray-300 hover:text-white transition-colors">
+              <Link
+                href="/#speakers"
+                className="text-gray-300 hover:text-white transition-colors"
+              >
                 연사 정보
               </Link>
-              <Link href="/#activities" className="text-gray-300 hover:text-white transition-colors">
+              <Link
+                href="/#activities"
+                className="text-gray-300 hover:text-white transition-colors"
+              >
                 활동 소개
               </Link>
-              <Link href="/#community" className="text-gray-300 hover:text-white transition-colors">
+              <Link
+                href="/#community"
+                className="text-gray-300 hover:text-white transition-colors"
+              >
                 커뮤니티 채널
               </Link>
             </nav>
@@ -60,7 +75,10 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
       </header>
 
       <div className="container mx-auto px-4 py-12">
-        <Link href="/speakers" className="inline-flex items-center text-blue-500 hover:text-blue-700 mb-8">
+        <Link
+          href="/speakers"
+          className="inline-flex items-center text-blue-500 hover:text-blue-700 mb-8"
+        >
           <ArrowLeft className="mr-2 h-4 w-4" />
           모든 연사 보기
         </Link>
@@ -69,60 +87,72 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
           <div className="md:col-span-1">
             <div className="bg-gray-900 p-6 rounded-lg">
               <div className="flex flex-col items-center text-center mb-6">
-                <SpeakerAvatar src={speaker.avatar} alt={speaker.name} size="xl" className="mb-4" />
-                <h1 className="text-2xl font-bold text-white">{speaker.name}</h1>
+                <SpeakerAvatar
+                  src={speaker.avatar}
+                  alt={speaker.name}
+                  size="xl"
+                  className="mb-4"
+                />
+                <h1 className="text-2xl font-bold text-white">
+                  {speaker.name}
+                </h1>
                 <p className="text-gray-400">{speaker.position}</p>
                 <p className="text-blue-400">{speaker.company}</p>
               </div>
 
               {speaker.contact && (
                 <div className="mb-6">
-                  <h2 className="text-lg font-semibold text-white mb-2">연락처</h2>
+                  <h2 className="text-lg font-semibold text-white mb-2">
+                    연락처
+                  </h2>
                   <div className="space-y-1">
                     {speaker.contact.email && (
                       <p className="text-sm">
-                        <span className="text-gray-400">이메일:</span>{" "}
-                        <a href={`mailto:${speaker.contact.email}`} className="text-blue-400 hover:underline">
+                        <span className="text-gray-400">이메일:</span>{' '}
+                        <a
+                          href={`mailto:${speaker.contact.email}`}
+                          className="text-blue-400 hover:underline"
+                        >
                           {speaker.contact.email}
                         </a>
                       </p>
                     )}
                     {speaker.contact.github && (
                       <p className="text-sm">
-                        <span className="text-gray-400">GitHub:</span>{" "}
+                        <span className="text-gray-400">GitHub:</span>{' '}
                         <a
                           href={speaker.contact.github}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-400 hover:underline"
                         >
-                          {speaker.contact.github.replace("https://", "")}
+                          {speaker.contact.github.replace('https://', '')}
                         </a>
                       </p>
                     )}
                     {speaker.contact.linkedin && (
                       <p className="text-sm">
-                        <span className="text-gray-400">LinkedIn:</span>{" "}
+                        <span className="text-gray-400">LinkedIn:</span>{' '}
                         <a
                           href={speaker.contact.linkedin}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-400 hover:underline"
                         >
-                          {speaker.contact.linkedin.replace("https://", "")}
+                          {speaker.contact.linkedin.replace('https://', '')}
                         </a>
                       </p>
                     )}
                     {speaker.contact.twitter && (
                       <p className="text-sm">
-                        <span className="text-gray-400">Twitter:</span>{" "}
+                        <span className="text-gray-400">Twitter:</span>{' '}
                         <a
                           href={speaker.contact.twitter}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-400 hover:underline"
                         >
-                          {speaker.contact.twitter.replace("https://", "")}
+                          {speaker.contact.twitter.replace('https://', '')}
                         </a>
                       </p>
                     )}
@@ -132,10 +162,15 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
 
               {speaker.skills && speaker.skills.length > 0 && (
                 <div>
-                  <h2 className="text-lg font-semibold text-white mb-2">기술 스택</h2>
+                  <h2 className="text-lg font-semibold text-white mb-2">
+                    기술 스택
+                  </h2>
                   <div className="flex flex-wrap gap-2">
-                    {speaker.skills.map((skill) => (
-                      <span key={skill} className="bg-gray-800 text-gray-300 text-xs px-2 py-1 rounded">
+                    {speaker.skills.map(skill => (
+                      <span
+                        key={skill}
+                        className="bg-gray-800 text-gray-300 text-xs px-2 py-1 rounded"
+                      >
                         {skill}
                       </span>
                     ))}
@@ -148,7 +183,9 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
           <div className="md:col-span-2">
             {session && (
               <div className="bg-gray-900 p-6 rounded-lg mb-6">
-                <h2 className="text-xl font-semibold text-white mb-4">발표 세션 정보</h2>
+                <h2 className="text-xl font-semibold text-white mb-4">
+                  발표 세션 정보
+                </h2>
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center">
                     <Calendar className="h-5 w-5 text-blue-400 mr-2" />
@@ -160,10 +197,14 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
                   </div>
                   <div className="flex items-center">
                     <Users className="h-5 w-5 text-blue-400 mr-2" />
-                    <span className="text-gray-300">참석자 {session.attendees}명</span>
+                    <span className="text-gray-300">
+                      참석자 {session.attendees}명
+                    </span>
                   </div>
                 </div>
-                <div className="text-sm text-gray-400">{session.description}</div>
+                <div className="text-sm text-gray-400">
+                  {session.description}
+                </div>
               </div>
             )}
 
@@ -174,9 +215,15 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
 
             {speaker.presentation && (
               <div className="bg-gray-900 p-6 rounded-lg mb-6">
-                <h2 className="text-xl font-semibold text-white mb-4">발표 정보</h2>
-                <h3 className="text-lg font-medium text-blue-400 mb-2">{speaker.presentation.title}</h3>
-                <p className="text-gray-300 mb-4">{speaker.presentation.description}</p>
+                <h2 className="text-xl font-semibold text-white mb-4">
+                  발표 정보
+                </h2>
+                <h3 className="text-lg font-medium text-blue-400 mb-2">
+                  {speaker.presentation.title}
+                </h3>
+                <p className="text-gray-300 mb-4">
+                  {speaker.presentation.description}
+                </p>
 
                 <div className="space-y-2">
                   {speaker.presentation.slides && (
@@ -208,11 +255,16 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
                 <h2 className="text-xl font-semibold text-white mb-4">경력</h2>
                 <div className="space-y-4">
                   {speaker.experience.map((exp, index) => (
-                    <div key={index} className="border-l-2 border-blue-500 pl-4">
+                    <div
+                      key={index}
+                      className="border-l-2 border-blue-500 pl-4"
+                    >
                       <h3 className="font-medium text-white">{exp.company}</h3>
                       <p className="text-blue-400">{exp.position}</p>
                       <p className="text-sm text-gray-400">{exp.period}</p>
-                      <p className="text-sm text-gray-300 mt-1">{exp.description}</p>
+                      <p className="text-sm text-gray-300 mt-1">
+                        {exp.description}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -228,7 +280,11 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <img src="/logo.png" alt="개취뽀 로고" className="w-8 h-8 rounded-lg" />
+                <img
+                  src="/logo.png"
+                  alt="개취뽀 로고"
+                  className="w-8 h-8 rounded-lg"
+                />
                 <span className="text-xl font-bold">개취뽀</span>
               </div>
               <p className="text-gray-400">개발자 취업을 뽀개는 커뮤니티</p>
@@ -238,17 +294,26 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
               <h3 className="font-semibold mb-4">커뮤니티</h3>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <Link href="/speakers" className="hover:text-white transition-colors">
+                  <Link
+                    href="/speakers"
+                    className="hover:text-white transition-colors"
+                  >
                     연사 정보
                   </Link>
                 </li>
                 <li>
-                  <Link href="/#activities" className="hover:text-white transition-colors">
+                  <Link
+                    href="/#activities"
+                    className="hover:text-white transition-colors"
+                  >
                     활동 소개
                   </Link>
                 </li>
                 <li>
-                  <Link href="/#community" className="hover:text-white transition-colors">
+                  <Link
+                    href="/#community"
+                    className="hover:text-white transition-colors"
+                  >
                     커뮤니티 채널
                   </Link>
                 </li>
@@ -259,12 +324,18 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
               <h3 className="font-semibold mb-4">참여하기</h3>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <Link href="/apply" className="hover:text-white transition-colors">
+                  <Link
+                    href="/apply"
+                    className="hover:text-white transition-colors"
+                  >
                     연사 신청
                   </Link>
                 </li>
                 <li>
-                  <Link href="/sponsor-apply" className="hover:text-white transition-colors">
+                  <Link
+                    href="/sponsor-apply"
+                    className="hover:text-white transition-colors"
+                  >
                     후원 신청
                   </Link>
                 </li>
@@ -307,5 +378,5 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
         </div>
       </footer>
     </div>
-  )
+  );
 }
