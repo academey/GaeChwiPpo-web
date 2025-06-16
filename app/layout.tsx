@@ -1,6 +1,8 @@
 import type React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
+
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -113,10 +115,7 @@ export default function RootLayout({
         />
         <link rel="icon" href="/favicon.ico" />
         <meta property="og:image" content="/og-image.png" />
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-3XSN32BG5T"
-        ></script>
+        <GoogleAnalytics gaId="G-3XSN32BG5T" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

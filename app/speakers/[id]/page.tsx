@@ -6,15 +6,16 @@ import { getSpeakerById, getSessionBySpeakerId } from '@/data/speakers';
 import { SpeakerAvatar } from '@/components/speaker-avatar';
 
 interface SpeakerPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({
   params,
 }: SpeakerPageProps): Promise<Metadata> {
-  const speaker = getSpeakerById(params.id);
+  const { id } = await params;
+  const speaker = getSpeakerById(id);
 
   if (!speaker) {
     return {
@@ -28,9 +29,10 @@ export async function generateMetadata({
   };
 }
 
-export default function SpeakerPage({ params }: SpeakerPageProps) {
-  const speaker = getSpeakerById(params.id);
-  const session = getSessionBySpeakerId(params.id);
+const SpeakerPage = async ({ params }: SpeakerPageProps) => {
+  const { id } = await params;
+  const speaker = getSpeakerById(id);
+  const session = getSessionBySpeakerId(id);
 
   if (!speaker) {
     notFound();
@@ -379,4 +381,6 @@ export default function SpeakerPage({ params }: SpeakerPageProps) {
       </footer>
     </div>
   );
-}
+};
+
+export default SpeakerPage;
