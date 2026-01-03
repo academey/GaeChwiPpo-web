@@ -1,9 +1,6 @@
 import { flow } from 'lodash-es';
 import { NextRequest, NextResponse } from 'next/server';
 
-const MAX_TITLE_LENGTH = 14;
-const MAX_DURATION_LENGTH = 30;
-
 export async function GET(request: NextRequest) {
   const params = parseBadgeParams(request.nextUrl.searchParams);
 
@@ -55,6 +52,9 @@ function sanitizeBadgeParams(params: ValidatedBadgeParams) {
     isLeader: params.isLeader,
   };
 }
+
+const MAX_TITLE_LENGTH = 14;
+const MAX_DURATION_LENGTH = 30;
 
 function truncateBadgeParams(params: ValidatedBadgeParams) {
   return {
